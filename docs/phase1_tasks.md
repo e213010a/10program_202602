@@ -51,29 +51,6 @@ Input（入力）  →  Process（処理）  →  Output（出力）
 
 ---
 
-## Milestone 0: 環境構築 & Git
-
-### 目標
-- 開発環境のセットアップ
-- Gitの基本操作（add, commit, push）
-
-### やること
-
-1. 環境確認
-```bash
-node -v
-git -v
-```
-
-2. `members/[あなたの名前]/phase1_cli/` フォルダを作成
-
-3. Gitの add → commit → push を **5回以上** 繰り返す
-
-### 完了条件
-- [ ] GitHubに自分のコミット履歴が5つ以上ある
-
----
-
 ## Milestone 1: おしゃべり挨拶ボット
 
 ### 課題
@@ -89,7 +66,15 @@ VS Codeでブランチを作成
 `ipo_card.md` として保存
 
 3. **AIに指示してコード生成**
-`greeting.js` を作成、I/P/O コメントを追加
+`greeting.js` を作成
+
+3. **コードを実行**
+コードを実行し、想定の動作となるかを確認
+inputはさまざまテストすること
+
+- 全角半角を変える
+- 入力値を入れないで実行
+- 複数の入力値を入れて実行
 
 4. **Push & PR作成**
 VS Codeで該当ファイルをAdd, Commit, Pushする
@@ -98,7 +83,6 @@ GitHubでPull Requestを作成
 ### 完了条件
 - [ ] IPOカード（`ipo_card.md`）をコミットした
 - [ ] 3パターンの挨拶が動作する
-- [ ] コードに I/P/O コメントがある
 - [ ] Pull Requestを作成した
 
 ---
@@ -118,7 +102,15 @@ VS Codeでブランチを作成
 `ipo_card.md` として保存（Inputが複数あることに注意）
 
 3. **AIに指示してコード生成**
-`warikan.js` を作成、I/P/O コメントを追加
+`warikan.js` を作成
+
+3. **コードを実行**
+コードを実行し、想定の動作となるかを確認
+inputはさまざまテストすること
+
+- 全角半角を変える
+- 入力値を入れないで実行
+- 複数の入力値を入れて実行
 
 4. **Push & PR作成**
 VS Codeで該当ファイルをAdd, Commit, Pushする
@@ -127,7 +119,6 @@ GitHubでPull Requestを作成
 ### 完了条件
 - [ ] IPOカード（`ipo_card.md`）をコミットした
 - [ ] 端数処理が正しく動作する
-- [ ] コードに I/P/O コメントがある
 - [ ] Pull Requestを作成した
 
 ---
@@ -147,7 +138,15 @@ VS Codeでブランチを作成
 `ipo_card.md` として保存（機能ごとにIPOがある）
 
 3. **AIに指示してコード生成**
-`todo.js` を作成、I/P/O コメントを追加
+`todo.js` を作成
+
+3. **コードを実行**
+コードを実行し、想定の動作となるかを確認
+inputはさまざまテストすること
+
+- 全角半角を変える
+- 入力値を入れないで実行
+- 複数の入力値を入れて実行
 
 4. **Push & PR作成**
 VS Codeで該当ファイルをAdd, Commit, Pushする
@@ -161,7 +160,6 @@ GitHubでPull Requestを作成
 ### 完了条件
 - [ ] IPOカード3つ（`ipo_card.md`）をコミットした
 - [ ] add, list, done の3機能が動作する
-- [ ] コードに I/P/O コメントがある
 - [ ] Pull Requestを作成した
 
 ---
@@ -176,11 +174,7 @@ GitHubでPull Requestを作成
 - 割り勘計算機: 消費税を加算する
 - ToDoリスト: 表示だけする機能をつける
 
-### 完了条件
-- [ ] 3つのツールのIPOを説明できた
-- [ ] 機能追加時のIPO変更を説明できた
-
-### すぐにできた人向け
+### 上記がすぐにできた人向け（Optional）
 時間のログ（記録）を残すためのCLIツールを作ってみましょう。
 仕様も自分で考えてください。できたら提出してください。
 
@@ -196,6 +190,17 @@ GitHubでPull Requestを作成
 | 4. コードレビュー | IPOで説明できる |
 
 ---
+
+## 参考教材
+
+以下の教材を学ぶことで、コードの詳細についても理解を深められます。
+
+- [AIコース](https://prog-8.com/courses/feature/ai-intro-beta)
+- [JavaScript 基礎文法編](https://prog-8.com/lessons/es6/study/1)
+- [コマンドライン操作](https://prog-8.com/lessons/commandline/study/1)
+- [Git操作](https://prog-8.com/lessons/git/study/1)
+
+上記教材の中になければ、AIにコード（1行単位）で説明させることもおすすめです。
 
 ## 次のPhaseへ
 
