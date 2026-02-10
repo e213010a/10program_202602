@@ -1,0 +1,19 @@
+{
+  "name": "base-crud-app",
+  "version": "1.0.0",
+  "description": "Base CRUD App for Hackathon",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "node src/server.js",
+    "db:setup": "npx prisma migrate dev --name init",
+    "db:reset": "npx prisma migrate reset"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "@prisma/client": "^5.7.0"
+  },
+  "devDependencies": {
+    "prisma": "^5.7.0"
+  }
+}
