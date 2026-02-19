@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>ログの場所実験</title>
+</head>
+<body>
+  <h1>ログの場所実験</h1>
+  <button onclick="callServer()">サーバーを呼ぶ</button>
+
+  <script>
+    // ★ここはCLIENTのログ（F12に出る）
+    console.log('[CLIENT] ページが読み込まれました')
+
+    async function callServer() {
+      console.log('[CLIENT] ボタンがクリックされました')
+
+      const response = await fetch('/api/ping')
+      const data = await response.json()
+
+      console.log('[CLIENT] サーバーからの応答:', data)
+    }
+  </script>
+</body>
+</html>
