@@ -1,5 +1,5 @@
 /**
- * Base CRUD App - スタイルシート
+ * Base App - スタイルシート
  * シンプルで見やすいデザイン
  */
 
@@ -110,21 +110,6 @@ header .subtitle {
 .item-title {
   font-size: 1rem;
   color: #2c3e50;
-}
-
-.delete-button {
-  padding: 8px 16px;
-  font-size: 0.85rem;
-  background-color: #e74c3c;
-  color: white;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-  transition: background-color 0.2s;
-}
-
-.delete-button:hover {
-  background-color: #c0392b;
 }
 
 /* 空メッセージ */

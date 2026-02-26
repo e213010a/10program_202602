@@ -1,7 +1,7 @@
 {
-  "name": "base-crud-app",
+  "name": "base-app",
   "version": "1.0.0",
-  "description": "Base CRUD App for Hackathon",
+  "description": "Base App for Hackathon",
   "main": "src/server.js",
   "scripts": {
     "start": "node src/server.js",

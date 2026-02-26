@@ -3,14 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Base CRUD App</title>
+  <title>Base App</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <div class="container">
     <!-- ヘッダー -->
     <header>
-      <h1>Base CRUD App</h1>
+      <h1>Base App</h1>
       <p class="subtitle">シンプルなリストアプリ</p>
     </header>
 
@@ -39,10 +39,12 @@
 
   <script>
     /**
-     * Base CRUD App - クライアント側JavaScript
+     * Base App - クライアント側JavaScript
      *
      * このコードはブラウザ上で動作します。
      * ログはブラウザのF12（開発者ツール）に表示されます。
+     *
+     * 現在の機能: Create（追加）、Read（一覧表示）
      */
 
     // =====================================================
@@ -131,42 +133,9 @@
       }
     }
 
-    /**
-     * アイテムを削除
-     *
-     * IPO:
-     * - Input: 削除ボタンクリック（アイテムID）
-     * - Process: サーバーにDELETEリクエスト → DB削除
-     * - Output: 一覧を再読み込み
-     */
-    async function deleteItem(id) {
-      // 確認ダイアログ
-      if (!confirm('本当に削除しますか？')) {
-        return
-      }
-
-      console.log('[CLIENT] アイテムを削除: ID =', id)
-
-      try {
-        // サーバーにDELETEリクエスト
-        const response = await fetch(`/api/items/${id}`, {
-          method: 'DELETE'
-        })
-
-        if (!response.ok) {
-          const error = await response.json()
-          throw new Error(error.error)
-        }
-
-        // 一覧を再読み込み
-        await loadItems()
-
-        console.log('[CLIENT] 削除完了')
-      } catch (error) {
-        console.error('[CLIENT] エラー:', error)
-        alert('削除に失敗しました: ' + error.message)
-      }
-    }
+    // =====================================================
+    // ここに新しい機能（Delete, Updateなど）を追加していこう！
+    // =====================================================
 
     // =====================================================
     // 画面描画関数
@@ -188,7 +157,6 @@
         li.className = 'item'
         li.innerHTML = `
           <span class="item-title">${escapeHtml(item.title)}</span>
-          <button class="delete-button" onclick="deleteItem(${item.id})">削除</button>
         `
         itemList.appendChild(li)
       })

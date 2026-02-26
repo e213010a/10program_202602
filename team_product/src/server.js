@@ -1,8 +1,10 @@
 /**
- * Base CRUD App - サーバーメインファイル
+ * Base App - サーバーメインファイル
  *
  * このファイルはサーバー側の処理を担当します。
  * ログはVSCodeのターミナルに表示されます。
+ *
+ * 現在の機能: Create（追加）、Read（一覧表示）
  */
 
 const express = require('express')
@@ -76,37 +78,16 @@ app.post('/api/items', async (req, res) => {
   }
 })
 
-/**
- * DELETE /api/items/:id - アイテム削除
- *
- * IPO:
- * - Input: URLパラメータからアイテムIDを受け取る
- * - Process: DBから該当アイテムを削除
- * - Output: 成功メッセージを返す
- */
-app.delete('/api/items/:id', async (req, res) => {
-  try {
-    const id = parseInt(req.params.id)
-
-    // DBからアイテムを削除
-    await prisma.item.delete({
-      where: { id }
-    })
-
-    console.log('[SERVER] アイテムを削除: ID =', id)
-    res.json({ success: true, message: '削除しました' })
-  } catch (error) {
-    console.error('[SERVER] エラー:', error)
-    res.status(500).json({ error: 'アイテム削除に失敗しました' })
-  }
-})
+// =====================================================
+// ここに新しいAPI（Delete, Updateなど）を追加していこう！
+// =====================================================
 
 // =====================================================
 // サーバー起動
 // =====================================================
 app.listen(PORT, () => {
   console.log('='.repeat(50))
-  console.log('[SERVER] Base CRUD App 起動中')
+  console.log('[SERVER] Base App 起動中')
   console.log(`[SERVER] URL: http://localhost:${PORT}`)
   console.log('='.repeat(50))
 })

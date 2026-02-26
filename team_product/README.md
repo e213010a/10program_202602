@@ -1,7 +1,7 @@
-# Base CRUD App
+# Base App
 
-ハッカソン用のベースアプリケーションです。
-このアプリを改造して、独自のプロダクトを作ってください。
+アイテムの追加と一覧表示ができるシンプルなリストアプリです。
+このアプリに機能を追加して、独自のプロダクトに進化させてください。
 
 ## セットアップ
 
@@ -16,11 +16,12 @@ npm run db:setup
 npm start
 ```
 
-## 機能
+ブラウザで http://localhost:3000 を開いてください。
+
+## 現在の機能
 
 - **Create**: アイテムを追加
 - **Read**: アイテム一覧を表示
-- **Delete**: アイテムを削除
 
 ## ファイル構成
 
@@ -31,9 +32,9 @@ team_product/
 │   └── schema.prisma     # DBスキーマ定義
 ├── database/             # SQLiteファイル格納
 └── src/
-    ├── server.js         # サーバー側コード
+    ├── server.js         # サーバー側コード（API）
     └── public/
-        ├── index.html    # クライアント側HTML
+        ├── index.html    # クライアント側（HTML + JavaScript）
         └── style.css     # スタイルシート
 ```
 
@@ -44,10 +45,10 @@ Client (ブラウザ)  →  Server (Node.js)  →  Database (SQLite)
    index.html          server.js             app.db
 ```
 
-## ハッカソンでの拡張例
+## どこを触る？
 
-- カテゴリ分け機能
-- 優先度設定
-- 期限設定
-- 検索機能
-- 完了/未完了の切り替え
+| やりたいこと | 触るファイル |
+|-------------|-------------|
+| 画面の見た目を変える | index.html, style.css |
+| 新しいAPIを追加する | server.js |
+| データの項目を増やす | schema.prisma |
