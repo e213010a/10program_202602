@@ -34,7 +34,8 @@ team_product/
 └── src/
     ├── server.js         # サーバー側コード（API）
     └── public/
-        ├── index.html    # クライアント側（HTML + JavaScript）
+        ├── index.html    # クライアント側（HTML）
+        ├── app.js        # クライアント側（JavaScript）
         └── style.css     # スタイルシート
 ```
 
@@ -50,5 +51,6 @@ Client (ブラウザ)  →  Server (Node.js)  →  Database (SQLite)
 | やりたいこと | 触るファイル |
 |-------------|-------------|
 | 画面の見た目を変える | index.html, style.css |
+| ボタンや通信の処理を変える | app.js |
 | 新しいAPIを追加する | server.js |
 | データの項目を増やす | schema.prisma |
