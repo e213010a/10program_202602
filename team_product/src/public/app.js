@@ -248,6 +248,28 @@ titleInput.addEventListener("keypress", (e) => {
 });
 
 // =====================================================
+// テーマ切り替え
+// =====================================================
+
+const themeToggle = document.getElementById('themeToggle')
+
+// 保存済みテーマを復元
+if (localStorage.getItem('theme') === 'dark') {
+  document.body.classList.add('dark')
+  themeToggle.checked = true
+}
+
+themeToggle.addEventListener('change', () => {
+  if (themeToggle.checked) {
+    document.body.classList.add('dark')
+    localStorage.setItem('theme', 'dark')
+  } else {
+    document.body.classList.remove('dark')
+    localStorage.setItem('theme', 'light')
+  }
+})
+
+// =====================================================
 // 初期化
 // =====================================================
 
