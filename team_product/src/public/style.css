@@ -169,6 +169,65 @@ header {
   background-color: #2980b9;
 }
 
+/* 検索 */
+.search-container {
+  margin-bottom: 20px;
+}
+
+.search-toggle-button {
+  padding: 10px 20px;
+  font-size: 0.95rem;
+  background-color: #7f8c8d;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.search-toggle-button:hover {
+  background-color: #6c7a7d;
+}
+
+.search-form {
+  display: flex;
+  gap: 10px;
+  margin-top: 12px;
+}
+
+.search-form input {
+  flex: 1;
+  padding: 10px 12px;
+  font-size: 0.95rem;
+  border: 2px solid #ddd;
+  border-radius: 8px;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.search-form input:focus {
+  border-color: #f39c12;
+}
+
+.search-form button {
+  padding: 10px 18px;
+  font-size: 0.9rem;
+  background-color: #f39c12;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.search-form button:hover {
+  background-color: #d68910;
+}
+
+.hidden {
+  display: none;
+}
+
 /* アイテム一覧 */
 .items-container h2 {
   font-size: 1.2rem;
@@ -204,6 +263,12 @@ header {
   flex: 1;
 }
 
+.highlight-marker {
+  background-color: #fff1b8;
+  padding: 0 2px;
+  border-radius: 3px;
+}
+
 .item-actions {
   display: flex;
   gap: 8px;
@@ -232,6 +297,14 @@ header {
 
 .done-button:hover {
   background-color: #219150;
+}
+
+.delete-button {
+  background-color: #e74c3c;
+}
+
+.delete-button:hover {
+  background-color: #c0392b;
 }
 
 .edit-input {
@@ -276,6 +349,54 @@ header {
   display: none;
 }
 
+/* 削除確認ダイアログ */
+.confirm-overlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  z-index: 1000;
+}
+
+.confirm-dialog {
+  width: 100%;
+  max-width: 360px;
+  background-color: #fff;
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+.confirm-message {
+  color: #2c3e50;
+  margin-bottom: 18px;
+}
+
+.confirm-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+.confirm-yes-button {
+  background-color: #e74c3c;
+}
+
+.confirm-yes-button:hover {
+  background-color: #c0392b;
+}
+
+.confirm-no-button {
+  background-color: #7f8c8d;
+}
+
+.confirm-no-button:hover {
+  background-color: #6c7a7d;
+}
+
 /* レスポンシブ */
 @media (max-width: 480px) {
   .add-form {
@@ -283,6 +404,14 @@ header {
   }
 
   .add-form button {
+    width: 100%;
+  }
+
+  .search-form {
+    flex-direction: column;
+  }
+
+  .search-form button {
     width: 100%;
   }
 }

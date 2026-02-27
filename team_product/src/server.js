@@ -4,7 +4,7 @@
  * このファイルはサーバー側の処理を担当します。
  * ログはVSCodeのターミナルに表示されます。
  *
- * 現在の機能: Create（追加）、Read（一覧表示）、Update（編集）
+ * 現在の機能: Create（追加）、Read（一覧表示）、Search（検索）、Update（編集）、Complete（完了）、Delete（削除）
  */
 
 const express = require("express");
@@ -45,6 +45,39 @@ app.get("/api/items", async (req, res) => {
   } catch (error) {
     console.error("[SERVER] エラー:", error);
     res.status(500).json({ error: "アイテム取得に失敗しました" });
+  }
+});
+
+/**
+ * GET /api/items/search - アイテム検索
+ *
+ * IPO:
+ * - Input: クライアントから検索文字列（keyword）を受け取る
+ * - Process: DBでtitleがkeywordを部分一致するデータを検索
+ * - Output: 該当するアイテム一覧をJSONで返す
+ */
+app.get("/api/items/search", async (req, res) => {
+  try {
+    const keyword = String(req.query.keyword ?? "").trim();
+
+    if (!keyword) {
+      return res.status(400).json({ error: "検索文字列を入力してください" });
+    }
+
+    const items = await prisma.item.findMany({
+      where: {
+        title: {
+          contains: keyword,
+        },
+      },
+      orderBy: { createdAt: "desc" },
+    });
+
+    console.log("[SERVER] アイテムを検索:", keyword, items.length, "件");
+    res.json(items);
+  } catch (error) {
+    console.error("[SERVER] エラー:", error);
+    res.status(500).json({ error: "検索に失敗しました" });
   }
 });
 
@@ -114,6 +147,39 @@ app.put("/api/items/:id", async (req, res) => {
 });
 
 /**
+ * DELETE /api/items/:id - アイテム削除
+ *
+ * IPO:
+ * - Input: クライアントからidを受け取る
+ * - Process: 対象idのデータをDB上から削除
+ * - Output: 削除したアイテムをJSONで返す
+ */
+app.delete("/api/items/:id", async (req, res) => {
+  try {
+    const id = Number(req.params.id);
+
+    if (!Number.isInteger(id) || id <= 0) {
+      return res.status(400).json({ error: "不正なidです" });
+    }
+
+    const item = await prisma.item.delete({
+      where: { id },
+    });
+
+    console.log("[SERVER] アイテムを削除:", item);
+    res.json(item);
+  } catch (error) {
+    console.error("[SERVER] エラー:", error);
+
+    if (error.code === "P2025") {
+      return res.status(404).json({ error: "対象データが見つかりません" });
+    }
+
+    res.status(500).json({ error: "アイテム削除に失敗しました" });
+  }
+});
+
+/**
  * PATCH /api/items/:id/complete - アイテム完了
  *
  * IPO:
@@ -131,6 +197,10 @@ app.patch('/api/items/:id/complete', async (req, res) => {
 
     // 現在のcompletedを取得してトグル
     const current = await prisma.item.findUnique({ where: { id } })
+    if (!current) {
+      return res.status(404).json({ error: 'アイテムが見つかりません' })
+    }
+
     const item = await prisma.item.update({
       where: { id },
       data: { completed: !current.completed }
