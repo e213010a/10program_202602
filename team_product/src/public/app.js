@@ -10,13 +10,13 @@
 // =====================================================
 // DOM要素の取得
 // =====================================================
-const titleInput = document.getElementById('titleInput')
-const addButton = document.getElementById('addButton')
-const itemList = document.getElementById('itemList')
-const emptyMessage = document.getElementById('emptyMessage')
+const titleInput = document.getElementById("titleInput");
+const addButton = document.getElementById("addButton");
+const itemList = document.getElementById("itemList");
+const emptyMessage = document.getElementById("emptyMessage");
 
 // ページ読み込み時にログ出力
-console.log('[CLIENT] ページが読み込まれました')
+console.log("[CLIENT] ページが読み込まれました");
 
 // =====================================================
 // API呼び出し関数
@@ -31,20 +31,20 @@ console.log('[CLIENT] ページが読み込まれました')
  * - Output: 画面にアイテムを表示
  */
 async function loadItems() {
-  console.log('[CLIENT] アイテム一覧を取得中...')
+  console.log("[CLIENT] アイテム一覧を取得中...");
 
   try {
     // サーバーにリクエスト（この時点でServer層に処理が移る）
-    const response = await fetch('/api/items')
-    const items = await response.json()
+    const response = await fetch("/api/items");
+    const items = await response.json();
 
-    console.log('[CLIENT] 取得完了:', items.length, '件')
+    console.log("[CLIENT] 取得完了:", items.length, "件");
 
     // 画面を更新
-    renderItems(items)
+    renderItems(items);
   } catch (error) {
-    console.error('[CLIENT] エラー:', error)
-    alert('アイテムの取得に失敗しました')
+    console.error("[CLIENT] エラー:", error);
+    alert("アイテムの取得に失敗しました");
   }
 }
 
@@ -57,22 +57,60 @@ async function loadItems() {
  * - Output: 一覧を再読み込み
  */
 async function addItem() {
-  const name = titleInput.value.trim()
+  const name = titleInput.value.trim();
 
   // 入力チェック（Client側のバリデーション）
   if (!name) {
-    alert('nameを入力してください')
-    return
+    alert("nameを入力してください");
+    return;
   }
 
-  console.log('[CLIENT] アイテムを追加:', name)
+  console.log("[CLIENT] アイテムを追加:", name);
 
   try {
     // サーバーにPOSTリクエスト
-    const response = await fetch('/api/items', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ title: name })
+    const response = await fetch("/api/items", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ title: name }),
+    });
+
+    if (!response.ok) {
+      const error = await response.json();
+      throw new Error(error.error);
+    }
+
+    // 入力欄をクリア
+    titleInput.value = "";
+
+    // 一覧を再読み込み
+    await loadItems();
+
+    console.log("[CLIENT] 追加完了");
+  } catch (error) {
+    console.error("[CLIENT] エラー:", error);
+    alert("追加に失敗しました: " + error.message);
+  }
+}
+
+// =====================================================
+// Complete機能
+// =====================================================
+
+/**
+ * アイテムの完了をトグル
+ *
+ * IPO:
+ * - Input: チェックボックスクリック（アイテムID）
+ * - Process: サーバーにPATCHリクエスト → DB更新
+ * - Output: 一覧を再読み込み（完了itemは下に表示）
+ */
+async function completeItem(id) {
+  console.log('[CLIENT] アイテムを完了切替: ID =', id)
+
+  try {
+    const response = await fetch(`/api/items/${id}/complete`, {
+      method: 'PATCH'
     })
 
     if (!response.ok) {
@@ -80,16 +118,11 @@ async function addItem() {
       throw new Error(error.error)
     }
 
-    // 入力欄をクリア
-    titleInput.value = ''
-
-    // 一覧を再読み込み
     await loadItems()
-
-    console.log('[CLIENT] 追加完了')
+    console.log('[CLIENT] 完了切替完了')
   } catch (error) {
     console.error('[CLIENT] エラー:', error)
-    alert('追加に失敗しました: ' + error.message)
+    alert('完了切替に失敗しました: ' + error.message)
   }
 }
 
@@ -106,32 +139,32 @@ async function addItem() {
  * - Output: 更新後一覧を再描画
  */
 async function updateItem(id, nameInput) {
-  const name = nameInput.value.trim()
+  const name = nameInput.value.trim();
 
   if (!name) {
-    alert('nameを入力してください')
-    return
+    alert("nameを入力してください");
+    return;
   }
 
-  console.log('[CLIENT] アイテムを更新:', id, name)
+  console.log("[CLIENT] アイテムを更新:", id, name);
 
   try {
     const response = await fetch(`/api/items/${id}`, {
-      method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ name })
-    })
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ name }),
+    });
 
     if (!response.ok) {
-      const error = await response.json()
-      throw new Error(error.error)
+      const error = await response.json();
+      throw new Error(error.error);
     }
 
-    await loadItems()
-    console.log('[CLIENT] 更新完了')
+    await loadItems();
+    console.log("[CLIENT] 更新完了");
   } catch (error) {
-    console.error('[CLIENT] エラー:', error)
-    alert('更新に失敗しました: ' + error.message)
+    console.error("[CLIENT] エラー:", error);
+    alert("更新に失敗しました: " + error.message);
   }
 }
 
@@ -144,46 +177,56 @@ async function updateItem(id, nameInput) {
  */
 function renderItems(items) {
   // リストをクリア
-  itemList.innerHTML = ''
+  itemList.innerHTML = "";
 
   // 空メッセージの表示/非表示
-  emptyMessage.style.display = items.length === 0 ? 'block' : 'none'
+  emptyMessage.style.display = items.length === 0 ? "block" : "none";
+
+  // 未完了を上、完了を下に並び替え
+  const sorted = [...items].sort((a, b) => a.completed - b.completed)
 
   // 各アイテムを描画
-  items.forEach(item => {
+  sorted.forEach(item => {
     const li = document.createElement('li')
-    li.className = 'item'
+    li.className = item.completed ? 'item item-completed' : 'item'
 
-    const nameText = document.createElement('span')
-    nameText.className = 'item-title'
-    nameText.textContent = item.title
+    const checkbox = document.createElement('input')
+    checkbox.type = 'checkbox'
+    checkbox.className = 'item-checkbox'
+    checkbox.checked = item.completed
+    checkbox.addEventListener('change', () => completeItem(item.id))
 
-    const actions = document.createElement('div')
-    actions.className = 'item-actions'
+    const nameText = document.createElement("span");
+    nameText.className = "item-title";
+    nameText.textContent = item.title;
 
-    const editButton = document.createElement('button')
-    editButton.className = 'item-button edit-button'
-    editButton.textContent = '編集'
-    editButton.addEventListener('click', () => {
-      const nameInput = document.createElement('input')
-      nameInput.type = 'text'
-      nameInput.className = 'edit-input'
-      nameInput.value = item.title
+    const actions = document.createElement("div");
+    actions.className = "item-actions";
 
-      const doneButton = document.createElement('button')
-      doneButton.className = 'item-button done-button'
-      doneButton.textContent = '完了'
-      doneButton.addEventListener('click', () => {
-        updateItem(item.id, nameInput)
-      })
+    const editButton = document.createElement("button");
+    editButton.className = "item-button edit-button";
+    editButton.textContent = "編集";
+    editButton.addEventListener("click", () => {
+      const nameInput = document.createElement("input");
+      nameInput.type = "text";
+      nameInput.className = "edit-input";
+      nameInput.value = item.title;
 
-      actions.innerHTML = ''
-      li.replaceChild(nameInput, nameText)
-      actions.appendChild(doneButton)
-      nameInput.focus()
-    })
+      const doneButton = document.createElement("button");
+      doneButton.className = "item-button done-button";
+      doneButton.textContent = "完了";
+      doneButton.addEventListener("click", () => {
+        updateItem(item.id, nameInput);
+      });
+
+      actions.innerHTML = "";
+      li.replaceChild(nameInput, nameText);
+      actions.appendChild(doneButton);
+      nameInput.focus();
+    });
 
     actions.appendChild(editButton)
+    li.appendChild(checkbox)
     li.appendChild(nameText)
     li.appendChild(actions)
     itemList.appendChild(li)
@@ -195,18 +238,18 @@ function renderItems(items) {
 // =====================================================
 
 // 追加ボタンクリック
-addButton.addEventListener('click', addItem)
+addButton.addEventListener("click", addItem);
 
 // Enterキーで追加
-titleInput.addEventListener('keypress', (e) => {
-  if (e.key === 'Enter') {
-    addItem()
+titleInput.addEventListener("keypress", (e) => {
+  if (e.key === "Enter") {
+    addItem();
   }
-})
+});
 
 // =====================================================
 // 初期化
 // =====================================================
 
 // ページ読み込み時にアイテム一覧を取得
-loadItems()
+loadItems();

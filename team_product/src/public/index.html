@@ -1,43 +1,43 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ja">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Base App</title>
-  <link rel="stylesheet" href="style.css">
-</head>
-<body>
-  <div class="container">
-    <!-- ヘッダー -->
-    <header>
-      <h1>Base App</h1>
-      <p class="subtitle">シンプルなリストアプリ</p>
-    </header>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Base App</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="container">
+      <!-- ヘッダー -->
+      <header>
+        <h1>Base App</h1>
+        <p class="subtitle">シンプルなリストアプリ</p>
+      </header>
 
-    <!-- アイテム追加フォーム -->
-    <section class="add-form">
-      <input
-        type="text"
-        id="titleInput"
-        placeholder="新しいnameを入力..."
-        autocomplete="off"
-      >
-      <button id="addButton">追加</button>
-    </section>
+      <!-- アイテム追加フォーム -->
+      <section class="add-form">
+        <input
+          type="text"
+          id="titleInput"
+          placeholder="新しいnameを入力..."
+          autocomplete="off"
+        />
+        <button id="addButton">追加</button>
+      </section>
 
-    <!-- アイテム一覧 -->
-    <section class="items-container">
-      <h2>アイテム一覧</h2>
-      <ul id="itemList">
-        <!-- ここにアイテムが動的に表示される -->
-      </ul>
-      <p id="emptyMessage" class="empty-message">
-        データがありません。上のフォームから追加してください。
-      </p>
-    </section>
-  </div>
+      <!-- アイテム一覧 -->
+      <section class="items-container">
+        <h2>アイテム一覧</h2>
+        <ul id="itemList">
+          <!-- ここにアイテムが動的に表示される -->
+        </ul>
+        <p id="emptyMessage" class="empty-message">
+          データがありません。上のフォームから追加してください。
+        </p>
+      </section>
+    </div>
 
-  <!-- クライアント側JavaScript（別ファイル） -->
-  <script src="app.js"></script>
-</body>
+    <!-- クライアント側JavaScript（別ファイル） -->
+    <script src="app.js"></script>
+  </body>
 </html>
