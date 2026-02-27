@@ -4,7 +4,7 @@
  * このファイルはサーバー側の処理を担当します。
  * ログはVSCodeのターミナルに表示されます。
  *
- * 現在の機能: Create（追加）、Read（一覧表示）
+ * 現在の機能: Create（追加）、Read（一覧表示）、Update（編集）
  */
 
 const express = require('express')
@@ -78,9 +78,40 @@ app.post('/api/items', async (req, res) => {
   }
 })
 
-// =====================================================
-// ここに新しいAPI（Delete, Updateなど）を追加していこう！
-// =====================================================
+/**
+ * PUT /api/items/:id - アイテム編集
+ *
+ * IPO:
+ * - Input: クライアントからidとnameを受け取る
+ * - Process: 対象idのtitleをDB上で更新
+ * - Output: 更新したアイテムをJSONで返す
+ */
+app.put('/api/items/:id', async (req, res) => {
+  try {
+    const id = Number(req.params.id)
+    const { name, title } = req.body
+    const nextName = (name ?? title ?? '').trim()
+
+    if (!Number.isInteger(id) || id <= 0) {
+      return res.status(400).json({ error: '不正なidです' })
+    }
+
+    if (!nextName) {
+      return res.status(400).json({ error: 'nameを入力してください' })
+    }
+
+    const item = await prisma.item.update({
+      where: { id },
+      data: { title: nextName }
+    })
+
+    console.log('[SERVER] アイテムを更新:', item)
+    res.json(item)
+  } catch (error) {
+    console.error('[SERVER] エラー:', error)
+    res.status(500).json({ error: 'アイテム更新に失敗しました' })
+  }
+})
 
 // =====================================================
 // サーバー起動
