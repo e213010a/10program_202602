@@ -78,9 +78,37 @@ app.post('/api/items', async (req, res) => {
   }
 })
 
-// =====================================================
-// ここに新しいAPI（Delete, Updateなど）を追加していこう！
-// =====================================================
+/**
+ * PUT /api/items/:id - アイテム編集
+ *
+ * IPO:
+ * - Input: URLパラメータからアイテムID、bodyから新しいtitleを受け取る
+ * - Process: DBの該当アイテムのtitleを更新
+ * - Output: 更新したアイテムをJSONで返す
+ */
+app.put('/api/items/:id', async (req, res) => {
+  try {
+    const id = parseInt(req.params.id)
+    const { title } = req.body
+
+    // バリデーション（入力チェック）
+    if (!title || title.trim() === '') {
+      return res.status(400).json({ error: 'タイトルを入力してください' })
+    }
+
+    // DBのアイテムを更新
+    const item = await prisma.item.update({
+      where: { id },
+      data: { title: title.trim() }
+    })
+
+    console.log('[SERVER] アイテムを更新:', item)
+    res.json(item)
+  } catch (error) {
+    console.error('[SERVER] エラー:', error)
+    res.status(500).json({ error: 'アイテム更新に失敗しました' })
+  }
+})
 
 // =====================================================
 // サーバー起動
