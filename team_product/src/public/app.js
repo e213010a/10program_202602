@@ -94,6 +94,39 @@ async function addItem() {
 }
 
 // =====================================================
+// Complete機能
+// =====================================================
+
+/**
+ * アイテムの完了をトグル
+ *
+ * IPO:
+ * - Input: チェックボックスクリック（アイテムID）
+ * - Process: サーバーにPATCHリクエスト → DB更新
+ * - Output: 一覧を再読み込み（完了itemは下に表示）
+ */
+async function completeItem(id) {
+  console.log('[CLIENT] アイテムを完了切替: ID =', id)
+
+  try {
+    const response = await fetch(`/api/items/${id}/complete`, {
+      method: 'PATCH'
+    })
+
+    if (!response.ok) {
+      const error = await response.json()
+      throw new Error(error.error)
+    }
+
+    await loadItems()
+    console.log('[CLIENT] 完了切替完了')
+  } catch (error) {
+    console.error('[CLIENT] エラー:', error)
+    alert('完了切替に失敗しました: ' + error.message)
+  }
+}
+
+// =====================================================
 // Update機能
 // =====================================================
 
@@ -149,10 +182,19 @@ function renderItems(items) {
   // 空メッセージの表示/非表示
   emptyMessage.style.display = items.length === 0 ? 'block' : 'none'
 
+  // 未完了を上、完了を下に並び替え
+  const sorted = [...items].sort((a, b) => a.completed - b.completed)
+
   // 各アイテムを描画
-  items.forEach(item => {
+  sorted.forEach(item => {
     const li = document.createElement('li')
-    li.className = 'item'
+    li.className = item.completed ? 'item item-completed' : 'item'
+
+    const checkbox = document.createElement('input')
+    checkbox.type = 'checkbox'
+    checkbox.className = 'item-checkbox'
+    checkbox.checked = item.completed
+    checkbox.addEventListener('change', () => completeItem(item.id))
 
     const nameText = document.createElement('span')
     nameText.className = 'item-title'
@@ -184,6 +226,7 @@ function renderItems(items) {
     })
 
     actions.appendChild(editButton)
+    li.appendChild(checkbox)
     li.appendChild(nameText)
     li.appendChild(actions)
     itemList.appendChild(li)

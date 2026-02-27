@@ -15,6 +15,7 @@ datasource db {
 model Item {
   id        Int      @id @default(autoincrement())  // 自動採番のID
   title     String                                   // アイテム名
+  completed Boolean  @default(false)                // 完了フラグ
   createdAt DateTime @default(now())                // 作成日時
   updatedAt DateTime @updatedAt                     // 更新日時
 }
