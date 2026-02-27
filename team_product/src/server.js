@@ -121,29 +121,28 @@ app.put("/api/items/:id", async (req, res) => {
  * - Process: 対象idのcompletedをDB上でトグル（true/false）
  * - Output: 更新したアイテムをJSONで返す
  */
-app.patch("/api/items/:id/complete", async (req, res) => {
+app.patch('/api/items/:id/complete', async (req, res) => {
   try {
-    const id = Number(req.params.id);
+    const id = Number(req.params.id)
 
     if (!Number.isInteger(id) || id <= 0) {
-      return res.status(400).json({ error: "不正なidです" });
+      return res.status(400).json({ error: '不正なidです' })
     }
 
     // 現在のcompletedを取得してトグル
-    const current = await prisma.item.findUnique({ where: { id } });
+    const current = await prisma.item.findUnique({ where: { id } })
     const item = await prisma.item.update({
       where: { id },
-      data: { completed: !current.completed },
-    });
+      data: { completed: !current.completed }
+    })
 
-    console.log("[SERVER] アイテムを完了切替:", item);
-    res.json(item);
+    console.log('[SERVER] アイテムを完了切替:', item)
+    res.json(item)
   } catch (error) {
-    console.error("[SERVER] エラー:", error);
-    res.status(500).json({ error: "アイテム完了に失敗しました" });
+    console.error('[SERVER] エラー:', error)
+    res.status(500).json({ error: 'アイテム完了に失敗しました' })
   }
-});
-
+})
 // =====================================================
 // サーバー起動
 // =====================================================
