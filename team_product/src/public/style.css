@@ -156,6 +156,25 @@ header .subtitle {
   border-color: #3498db;
 }
 
+/* 完了アイテム */
+.item-completed {
+  background-color: #f0f0f0;
+  opacity: 0.7;
+}
+
+.item-completed .item-title {
+  color: #95a5a6;
+  text-decoration: line-through;
+}
+
+.item-checkbox {
+  width: 18px;
+  height: 18px;
+  margin-right: 10px;
+  cursor: pointer;
+  accent-color: #27ae60;
+}
+
 /* 空メッセージ */
 .empty-message {
   text-align: center;
